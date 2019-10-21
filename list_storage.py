@@ -16,30 +16,23 @@ class StoreList():
 
 #***single line
     def simplesend(self, file_name):
-        #places = ['Berlin', 'Cape Town', 'Sydney', 'Moscow']
         with open('{}.txt'.format(file_name), 'w') as filehandle:
             for listitem in self.list:
                 filehandle.write('%s\n' % listitem)
 
 #***multi line
     def multisend(self, file_name):
-        # define list of places
-        #places_list = ['Berlin', 'Cape Town', 'Sydney', 'Moscow']
         with open('{}.txt'.format(file_name), 'w') as filehandle:
             filehandle.writelines("%s\n" % place for place in self.list)
 
 #***python only pickle module
     def pklsend(self, file_name):
-        # define a list of places
-        #placesList = ['Berlin', 'Cape Town', 'Sydney', 'Moscow']
         with open('{}.data'.format(file_name), 'wb') as filehandle:
             # store the data as binary data stream
             pickle.dump(self.list, filehandle)
 
 #***json format, very universal
     def jsend(self, file_name):
-        # define list with values
-        #basicList = [1, "Cape Town", 4.6]
         # open output file for writing
         with open('{}.txt'.format(file_name), 'w') as filehandle:
             json.dump(self.list, filehandle)
