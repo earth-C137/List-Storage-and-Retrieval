@@ -1,47 +1,54 @@
-#my own module to send list to storage for future use
-#python only pickle module
-#load additional module
+"""
+A small module I made to save lists to files for future use.
+There are two classes and multiple methods.
+"""
+
+#The pickle module can only be used in python.
 import pickle
-#for more universal json format
+#So you can use the more universal json format.
 import json
 
 
 class StoreList():
-#pass a list into the object on creation
+#This class requires one argument, a list, on creation.
     def __init__(self, list):
 
         self.list = list
 
-#now you can send it to any file in any method as many times as you want, just use file path as file name, extension is already added
+#Now you can send it to any file in any method as many times as you want.
+#Just use a file path as file name.  The extension is already added.
+#The file_name must be entered as a string.
+#file_name example: '/home/user/Desktop/example_list'
 
-#***single line
+    #***single line
     def simplesend(self, file_name):
         with open('{}.txt'.format(file_name), 'w') as filehandle:
             for listitem in self.list:
                 filehandle.write('%s\n' % listitem)
 
-#***multi line
+    #***multi line
     def multisend(self, file_name):
         with open('{}.txt'.format(file_name), 'w') as filehandle:
             filehandle.writelines("%s\n" % place for place in self.list)
 
-#***python only pickle module
+    #***python only pickle module
     def pklsend(self, file_name):
         with open('{}.data'.format(file_name), 'wb') as filehandle:
             # store the data as binary data stream
             pickle.dump(self.list, filehandle)
 
-#***json format, very universal
+    #***json format, very universal
     def jsend(self, file_name):
         # open output file for writing
         with open('{}.txt'.format(file_name), 'w') as filehandle:
             json.dump(self.list, filehandle)
 
-#broke out store and retrieve because it would use the same list and cause problems
-#now you can retrieve anyway as a one liner right to a list or print
+            
+#Store and retrieve are seperate because it would use the same list and cause problems.
+#Now you can retrieve anyway as a one liner right to a list or print.
 class GetList():
-#same deal with file name, pass in as a path, extension added automatically
-#***single line
+    #Same deal with file name, pass in as a string file path, extension added automatically.
+    #***single line
     def simpleretrieve(file_name):
         list = []
         # open file and read the content in a list
@@ -52,7 +59,7 @@ class GetList():
                 # add item to the list
                 list.append(currentPlace)
         return(list)
-#***multi line
+    #***multi line
     def multiretrieve(file_name):
         # define empty list
         list = []
@@ -72,14 +79,14 @@ class GetList():
         with open('{}.txt'.format(file_name), 'r') as filehandle:
             list = [current_place.rstrip() for current_place in filehandle.readlines()]
         return(list)
-#***python only pickle module
+    #***python only pickle module
     def pklretrieve(file_name):
         list = []
         with open('{}.data'.format(file_name), 'rb') as filehandle:
             # read the data as binary data stream
             list = pickle.load(filehandle)
         return(list)
-#***json format, very universal
+    #***json format, very universal
     def jretrieve(file_name):
         list = []
         # open output file for reading
